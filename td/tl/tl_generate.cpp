@@ -97,10 +97,10 @@ void write_function_result_fetch(tl_outputer &out, const std::string &parser_nam
 
       int arg_type = a.type->get_type();
       if (arg_type == NODE_TYPE_VAR_TYPE) {
-        const tl_tree_var_type *t = static_cast<const tl_tree_var_type *>(a.type);
+        const tl_tree_var_type *tree_var_type = static_cast<const tl_tree_var_type *>(a.type);
         assert(a.flags & FLAG_EXCL);
-        assert(t->var_num >= 0);
-        if (t->var_num == result_var_type->var_num) {
+        assert(tree_var_type->var_num >= 0);
+        if (tree_var_type->var_num == result_var_type->var_num) {
           out.append(w.gen_var_type_fetch(a));
         }
       }
@@ -292,9 +292,9 @@ void write_class(tl_outputer &out, const tl_type *t, const TL_writer &w) {
     for (int i = 0; i < (int)parsers.size(); i++) {
       out.append(w.gen_fetch_function_begin(parsers[i], class_name, t->arity, empty_vars, -1));
       out.append(w.gen_fetch_switch_begin());
-      for (int i = 0; i < (int)t->constructors_num; i++) {
-        if (w.is_combinator_supported(t->constructors[i])) {
-          out.append(w.gen_fetch_switch_case(t->constructors[i], t->arity));
+      for (int j = 0; j < (int)t->constructors_num; j++) {
+        if (w.is_combinator_supported(t->constructors[j])) {
+          out.append(w.gen_fetch_switch_case(t->constructors[j], t->arity));
         }
       }
 
@@ -389,15 +389,15 @@ void write_tl(const tl_config &config, tl_outputer &out, const TL_writer &w) {
                  arr->multiplicity->get_type() == NODE_TYPE_VAR_NUM);
           for (int l = 0; l < (int)arr->args.size(); l++) {
             const arg &b = arr->args[l];
-            int arg_type = b.type->get_type();
-            if (arg_type == NODE_TYPE_VAR_TYPE || arg_type == NODE_TYPE_ARRAY || b.var_num != -1 ||
+            int b_arg_type = b.type->get_type();
+            if (b_arg_type == NODE_TYPE_VAR_TYPE || b_arg_type == NODE_TYPE_ARRAY || b.var_num != -1 ||
                 b.exist_var_num != -1) {
               if (!w.is_built_in_complex_type(t->name)) {
                 t->flags |= FLAG_COMPLEX;
                 found_complex = true;
               }
             } else {
-              assert(arg_type == NODE_TYPE_TYPE);
+              assert(b_arg_type == NODE_TYPE_TYPE);
             }
             assert(b.flags == FLAG_NOVAR || b.flags == 0);
           }

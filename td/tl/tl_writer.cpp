@@ -91,8 +91,8 @@ bool TL_writer::is_combinator_supported(const tl_combinator *constructor) const 
       const tl_tree_array *arr = static_cast<const tl_tree_array *>(a.type);
       for (int j = 0; j < (int)arr->args.size(); j++) {
         const arg &b = arr->args[j];
-        int arg_type = b.type->get_type();
-        assert(arg_type == NODE_TYPE_TYPE && b.var_num == -1);
+        int b_arg_type = b.type->get_type();
+        assert(b_arg_type == NODE_TYPE_TYPE && b.var_num == -1);
         if (!is_type_supported(static_cast<const tl_tree_type *>(b.type))) {
           return false;
         }
