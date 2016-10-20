@@ -21,4 +21,4 @@ set (TDTL_SOURCE
 )
 
 add_library(tdtl STATIC ${TDTL_SOURCE})
-target_link_libraries(tdtl tdutils)
+target_link_libraries(tdtl PUBLIC tdutils)
