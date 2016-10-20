@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.0.2)
-include_directories (".")
 
 #SOURCE SETS
 set (TDTL_SOURCE
@@ -21,4 +20,5 @@ set (TDTL_SOURCE
 )
 
 add_library(tdtl STATIC ${TDTL_SOURCE})
+target_include_directories(tdtl PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 target_link_libraries(tdtl PUBLIC tdutils)
