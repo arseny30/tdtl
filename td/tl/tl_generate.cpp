@@ -1,5 +1,6 @@
 #include <cassert>
 #include <cstdio>
+#include <cstdlib>
 
 #include <string>
 #include <vector>
@@ -364,11 +365,9 @@ void write_tl(const tl_config &config, tl_outputer &out, const TL_writer &w) {
       tl_combinator *constructor = t->constructors[j];
       assert(constructor->type_id == t->id);
       assert(constructor->result->get_type() == NODE_TYPE_TYPE);
-
-      const tl_tree_type *result_type = static_cast<const tl_tree_type *>(constructor->result);
-      assert(result_type->type == t);
-      assert((int)result_type->children.size() == t->arity);
-      assert(result_type->flags == (t->arity > 0 ? 0 : FLAG_NOVAR));
+      assert(static_cast<const tl_tree_type *>(constructor->result)->type == t);
+      assert(static_cast<const tl_tree_type *>(constructor->result)->children.size() == static_cast<size_t>(t->arity));
+      assert(static_cast<const tl_tree_type *>(constructor->result)->flags == (t->arity > 0 ? 0 : FLAG_NOVAR));
 
       for (int k = 0; k < (int)constructor->args.size(); k++) {
         const arg &a = constructor->args[k];
@@ -379,8 +378,8 @@ void write_tl(const tl_config &config, tl_outputer &out, const TL_writer &w) {
         assert(arg_type == NODE_TYPE_TYPE || arg_type == NODE_TYPE_VAR_TYPE || arg_type == NODE_TYPE_ARRAY);
         if (a.var_num >= 0) {
           assert(arg_type == NODE_TYPE_TYPE);
-          const tl_tree_type *a_type = static_cast<const tl_tree_type *>(a.type);
-          assert(a_type->type->id == ID_VAR_NUM || a_type->type->id == ID_VAR_TYPE);
+          assert(static_cast<const tl_tree_type *>(a.type)->type->id == ID_VAR_NUM ||
+                 static_cast<const tl_tree_type *>(a.type)->type->id == ID_VAR_TYPE);
         }
 
         if (arg_type == NODE_TYPE_ARRAY) {
@@ -408,8 +407,7 @@ void write_tl(const tl_config &config, tl_outputer &out, const TL_writer &w) {
     for (int i = 0; i < t->arity; i++) {
       int main_type = static_cast<const tl_tree_type *>(t->constructors[0]->result)->children[i]->get_type();
       for (int j = 1; j < t->constructors_num; j++) {
-        int cur_type = static_cast<const tl_tree_type *>(t->constructors[j]->result)->children[i]->get_type();
-        assert(cur_type == main_type);
+        assert(static_cast<const tl_tree_type *>(t->constructors[j]->result)->children[i]->get_type() == main_type);
       }
       assert(main_type == NODE_TYPE_VAR_TYPE || main_type == NODE_TYPE_VAR_NUM);
       if (main_type == NODE_TYPE_VAR_TYPE) {
@@ -640,15 +638,24 @@ std::string get_file_contents(const std::string &file_name, const string &mode) 
   }
 
   int fseek_res = fseek(f, 0, SEEK_END);
-  assert(fseek_res == 0);
+  if (fseek_res != 0) {
+    fprintf(stderr, "Can't seek to the end of the file \"%s\"", file_name.c_str());
+    std::abort();
+  }
   long size_long = ftell(f);
-  assert(size_long >= 0 && size_long < (1 << 25));
+  if (size_long < 0 || size_long >= (1 << 25)) {
+    fprintf(stderr, "Wrong file \"%s\" has wrong size = %ld", file_name.c_str(), size_long);
+    std::abort();
+  }
   size_t size = static_cast<size_t>(size_long);
 
   string result(size, ' ');
   rewind(f);
   size_t fread_res = fread(&result[0], size, 1, f);
-  assert(size == 0 || fread_res == 1);
+  if (size != 0 && fread_res != 1) {
+    fprintf(stderr, "Can't read file \"%s\"", file_name.c_str());
+    std::abort();
+  }
   fclose(f);
 
   return result;
@@ -675,12 +682,12 @@ tl_config read_tl_config_from_file(const std::string &file_name) {
   string config = get_file_contents(file_name, "rb");
   if (config.empty()) {
     fprintf(stderr, "Config file %s is empty\n", file_name.c_str());
-    assert(0);
+    std::abort();
   }
   if (config.size() % sizeof(int32_t) != 0) {
     fprintf(stderr, "Config size = %d is not multiple of %d\n", static_cast<int>(config.size()),
             static_cast<int>(sizeof(int32_t)));
-    assert(0);
+    std::abort();
   }
 
   tl_config_parser parser(reinterpret_cast<const int32_t *>(config.c_str()),
