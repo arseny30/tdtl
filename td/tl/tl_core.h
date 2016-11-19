@@ -84,9 +84,9 @@ class tl_tree {
   tl_tree(int flags) : flags(flags) {
   }
 
-  virtual int get_type(void) const = 0;
+  virtual int get_type() const = 0;
 
-  virtual ~tl_tree(void) {
+  virtual ~tl_tree() {
   }
 };
 
@@ -98,7 +98,7 @@ class tl_tree_type : public tl_tree {
   tl_tree_type(int flags, tl_type *type, int child_count) : tl_tree(flags), type(type), children(child_count) {
   }
 
-  virtual int get_type(void) const {
+  virtual int get_type() const {
     return NODE_TYPE_TYPE;
   }
 };
@@ -110,7 +110,7 @@ class tl_tree_nat_const : public tl_tree {
   tl_tree_nat_const(int flags, int num) : tl_tree(flags), num(num) {
   }
 
-  virtual int get_type(void) const {
+  virtual int get_type() const {
     return NODE_TYPE_NAT_CONST;
   }
 };
@@ -122,7 +122,7 @@ class tl_tree_var_type : public tl_tree {
   tl_tree_var_type(int flags, int var_num) : tl_tree(flags), var_num(var_num) {
   }
 
-  virtual int get_type(void) const {
+  virtual int get_type() const {
     return NODE_TYPE_VAR_TYPE;
   }
 };
@@ -135,7 +135,7 @@ class tl_tree_var_num : public tl_tree {
   tl_tree_var_num(int flags, int var_num, int diff) : tl_tree(flags), var_num(var_num), diff(diff) {
   }
 
-  virtual int get_type(void) const {
+  virtual int get_type() const {
     return NODE_TYPE_VAR_NUM;
   }
 };
@@ -153,7 +153,7 @@ class tl_tree_array : public tl_tree {
       : tl_tree(flags), multiplicity(multiplicity), args(a) {
   }
 
-  virtual int get_type(void) const {
+  virtual int get_type() const {
     return NODE_TYPE_ARRAY;
   }
 };

@@ -55,7 +55,7 @@ tl_combinator *tl_config::get_function(const std::string &function_name) {
   return name_to_function[function_name];
 }
 
-int tl_config::get_type_count(void) const {
+int tl_config::get_type_count() const {
   return static_cast<int>(types.size());
 }
 
@@ -63,7 +63,7 @@ tl_type *tl_config::get_type_by_num(int num) const {
   return types[num];
 }
 
-int tl_config::get_function_count(void) const {
+int tl_config::get_function_count() const {
   assert(functions.size() < 1u << 30);
   return static_cast<int>(functions.size());
 }
@@ -72,15 +72,15 @@ tl_combinator *tl_config::get_function_by_num(int num) const {
   return functions[num];
 }
 
-int32_t tl_config_parser::try_parse_int(void) {
+int32_t tl_config_parser::try_parse_int() {
   return try_parse(p.fetch_int());
 }
 
-int64_t tl_config_parser::try_parse_long(void) {
+int64_t tl_config_parser::try_parse_long() {
   return try_parse(p.fetch_long());
 }
 
-std::string tl_config_parser::try_parse_string(void) {
+std::string tl_config_parser::try_parse_string() {
   return try_parse(p.fetch_string<std::string>());
 }
 
@@ -107,7 +107,7 @@ int tl_config_parser::get_schema_version(int a) {
   return -1;
 }
 
-tl_tree *tl_config_parser::read_num_const(void) {
+tl_tree *tl_config_parser::read_num_const() {
   int num = try_parse_int();
 
   return new tl_tree_nat_const(FLAG_NOVAR, num);
@@ -261,7 +261,7 @@ std::vector<arg> tl_config_parser::read_args_list(int *var_count) {
   return args;
 }
 
-tl_combinator *tl_config_parser::read_combinator(void) {
+tl_combinator *tl_config_parser::read_combinator() {
   int32_t t = try_parse_int();
   if (t != TLS_COMBINATOR) {
     fprintf(stderr, "Wrong tls_combinator magic %d\n", t);
@@ -294,7 +294,7 @@ tl_combinator *tl_config_parser::read_combinator(void) {
   return combinator;
 }
 
-tl_type *tl_config_parser::read_type(void) {
+tl_type *tl_config_parser::read_type() {
   int32_t t = try_parse_int();
   if (t != TLS_TYPE) {
     fprintf(stderr, "Wrong tls_type magic %d\n", t);
@@ -317,7 +317,7 @@ tl_type *tl_config_parser::read_type(void) {
   return type;
 }
 
-tl_config tl_config_parser::parse_config(void) {
+tl_config tl_config_parser::parse_config() {
   schema_version = get_schema_version(try_parse_int());
   if (schema_version < 2) {
     fprintf(stderr, "Unsupported tl-schema verdion %d\n", schema_version);

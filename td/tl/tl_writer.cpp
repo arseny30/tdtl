@@ -14,7 +14,7 @@ std::string TL_writer::int_to_string(int x) {
   return buf;
 }
 
-std::vector<std::string> TL_writer::get_additional_functions(void) const {
+std::vector<std::string> TL_writer::get_additional_functions() const {
   return std::vector<std::string>();
 }
 

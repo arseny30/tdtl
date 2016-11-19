@@ -3,7 +3,7 @@
 namespace td {
 namespace tl {
 
-tl_outputer::~tl_outputer(void) {
+tl_outputer::~tl_outputer() {
 }
 
 }  // namespace tl

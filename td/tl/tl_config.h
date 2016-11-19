@@ -33,11 +33,11 @@ class tl_config {
 
   tl_combinator *get_function(const std::string &function_name);
 
-  int get_type_count(void) const;
+  int get_type_count() const;
 
   tl_type *get_type_by_num(int num) const;
 
-  int get_function_count(void) const;
+  int get_function_count() const;
 
   tl_combinator *get_function_by_num(int num) const;
 };
@@ -49,7 +49,7 @@ class tl_config_parser {
 
   static int get_schema_version(int a);
 
-  tl_tree *read_num_const(void);
+  tl_tree *read_num_const();
   tl_tree *read_num_var(int *var_count);
   tl_tree *read_type_var(int *var_count);
   tl_tree *read_array(int *var_count);
@@ -59,21 +59,21 @@ class tl_config_parser {
   tl_tree *read_expr(int *var_count);
   std::vector<arg> read_args_list(int *var_count);
 
-  tl_combinator *read_combinator(void);
-  tl_type *read_type(void);
+  tl_combinator *read_combinator();
+  tl_type *read_type();
 
   template <class T>
   T try_parse(const T &res) const;
 
-  int32_t try_parse_int(void);
-  int64_t try_parse_long(void);
-  std::string try_parse_string(void);
+  int32_t try_parse_int();
+  int64_t try_parse_long();
+  std::string try_parse_string();
 
  public:
   tl_config_parser(const int32_t *s, int len) : p(s, len) {
   }
 
-  tl_config parse_config(void);
+  tl_config parse_config();
 };
 
 }  // namespace tl

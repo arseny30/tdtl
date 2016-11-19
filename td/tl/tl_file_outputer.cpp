@@ -11,10 +11,10 @@ void tl_file_outputer::append(const std::string &str) {
   fprintf(f, "%s", str.c_str());
 }
 
-tl_file_outputer::tl_file_outputer(void) : f(NULL) {
+tl_file_outputer::tl_file_outputer() : f(NULL) {
 }
 
-void tl_file_outputer::close(void) {
+void tl_file_outputer::close() {
   if (f) {
     fclose(f);
   }
@@ -28,7 +28,7 @@ bool tl_file_outputer::open(const std::string &file_name) {
   return (f != NULL);
 }
 
-tl_file_outputer::~tl_file_outputer(void) {
+tl_file_outputer::~tl_file_outputer() {
   close();
 }
 

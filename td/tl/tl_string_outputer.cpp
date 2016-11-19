@@ -9,7 +9,7 @@ void tl_string_outputer::append(const std::string &str) {
   result += str;
 }
 
-const std::string &tl_string_outputer::get_result(void) const {
+const std::string &tl_string_outputer::get_result() const {
   return result;
 }
 
