@@ -16,7 +16,7 @@ namespace tl {
 
 void write_class_constructor(tl_outputer &out, const tl_combinator *t, const std::string &class_name, bool is_default,
                              const TL_writer &w) {
-  //  fprintf (stderr, "Gen constructor %s\n", class_name.c_str());
+  //  fprintf(stderr, "Gen constructor %s\n", class_name.c_str());
   int fields_num = 0;
   for (int i = 0; i < (int)t->args.size(); i++) {
     fields_num += !w.gen_constructor_parameter(0, t->args[i], is_default).empty();
@@ -47,7 +47,7 @@ void write_class_constructor(tl_outputer &out, const tl_combinator *t, const std
 
 void write_function_fetch(tl_outputer &out, const std::string &parser_name, const tl_combinator *t,
                           const std::string &class_name, const TL_writer &w) {
-  //  fprintf (stderr, "Write function fetch %s\n", class_name.c_str());
+  //  fprintf(stderr, "Write function fetch %s\n", class_name.c_str());
   std::vector<var_description> vars(t->var_count);
   int parser_type = w.get_parser_type(t, parser_name);
 
@@ -68,7 +68,7 @@ void write_function_fetch(tl_outputer &out, const std::string &parser_name, cons
 std::vector<var_description> write_function_store(tl_outputer &out, const std::string &storer_name,
                                                   const tl_combinator *t, const std::string &class_name,
                                                   std::vector<var_description> &vars, const TL_writer &w) {
-  //  fprintf (stderr, "Write function store %s\n", class_name.c_str());
+  //  fprintf(stderr, "Write function store %s\n", class_name.c_str());
   int storer_type = w.get_storer_type(t, storer_name);
 
   out.append(w.gen_store_function_begin(storer_name, class_name, 0, vars, storer_type));
@@ -85,7 +85,7 @@ std::vector<var_description> write_function_store(tl_outputer &out, const std::s
 void write_function_result_fetch(tl_outputer &out, const std::string &parser_name, const tl_combinator *t,
                                  const std::string &class_name, const tl_tree *result,
                                  const std::vector<var_description> &vars, const TL_writer &w) {
-  //  fprintf (stderr, "Write function result fetch %s\n", class_name.c_str());
+  //  fprintf(stderr, "Write function result fetch %s\n", class_name.c_str());
   int parser_type = w.get_parser_type(t, parser_name);
 
   out.append(w.gen_fetch_function_result_begin(parser_name, class_name, result));
@@ -150,7 +150,7 @@ void write_constructor_store(tl_outputer &out, const std::string &storer_name, c
   out.append(w.gen_vars(t, result_type, vars));
   out.append(w.gen_uni(result_type, vars, false));
   for (int i = 0; i < (int)t->args.size(); i++) {
-    //    fprintf (stderr, "%s: %s\n", result_type->type->name.c_str(), t->name.c_str());
+    //    fprintf(stderr, "%s: %s\n", result_type->type->name.c_str(), t->name.c_str());
     out.append(w.gen_field_store(t->args[i], vars, is_flat, storer_type));
   }
 
@@ -437,7 +437,7 @@ void write_tl(const tl_config &config, tl_outputer &out, const TL_writer &w) {
       if (t->simple_constructors == 0) {
         t->flags |= FLAG_COMPLEX;
         found_complex = true;
-        //        fprintf (stderr, "Found complex %s\n", t->name.c_str());
+        //        fprintf(stderr, "Found complex %s\n", t->name.c_str());
       }
     }
   }
