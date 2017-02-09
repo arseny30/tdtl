@@ -81,7 +81,7 @@ class tl_tree {
  public:
   int flags;
 
-  tl_tree(int flags) : flags(flags) {
+  explicit tl_tree(int flags) : flags(flags) {
   }
 
   virtual int get_type() const = 0;
