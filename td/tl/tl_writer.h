@@ -27,11 +27,11 @@ class TL_writer {
  protected:
   const std::string tl_name;
 
-  ~TL_writer() {
-  }
-
  public:
   explicit TL_writer(const std::string &tl_name) : tl_name(tl_name) {
+  }
+
+  virtual ~TL_writer() {
   }
 
   virtual int get_max_arity() const = 0;
