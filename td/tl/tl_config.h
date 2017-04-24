@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <cstddef>
 #include <cstdint>
 
 #include "tl_core.h"
@@ -70,7 +71,7 @@ class tl_config_parser {
   std::string try_parse_string();
 
  public:
-  tl_config_parser(const int32_t *s, int len) : p(s, len) {
+  tl_config_parser(const char *s, size_t len) : p(s, len) {
   }
 
   tl_config parse_config();

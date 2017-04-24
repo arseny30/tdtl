@@ -690,9 +690,7 @@ tl_config read_tl_config_from_file(const std::string &file_name) {
     std::abort();
   }
 
-  tl_config_parser parser(reinterpret_cast<const int32_t *>(config.c_str()),
-                          static_cast<int>(config.size() / sizeof(int32_t)));
-
+  tl_config_parser parser(config.c_str(), config.size());
   return parser.parse_config();
 }
 
