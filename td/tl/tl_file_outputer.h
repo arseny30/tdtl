@@ -1,9 +1,9 @@
 #pragma once
 
+#include "tl_outputer.h"
+
 #include <cstdio>
 #include <string>
-
-#include "tl_outputer.h"
 
 namespace td {
 namespace tl {

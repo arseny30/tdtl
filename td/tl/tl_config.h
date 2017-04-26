@@ -1,46 +1,47 @@
 #pragma once
 
+#include "tl_core.h"
+
+#include "td/utils/tl_parser.h"
+
+#include <cstddef>
+#include <cstdint>
 #include <map>
 #include <string>
 #include <vector>
-#include <cstddef>
-#include <cstdint>
-
-#include "tl_core.h"
-#include "td/utils/tl_parser.h"
 
 namespace td {
 namespace tl {
 
 class tl_config {
   std::vector<tl_type *> types;
-  std::map<int, tl_type *> id_to_type;
+  std::map<std::int32_t, tl_type *> id_to_type;
   std::map<std::string, tl_type *> name_to_type;
 
   std::vector<tl_combinator *> functions;
-  std::map<int, tl_combinator *> id_to_function;
+  std::map<std::int32_t, tl_combinator *> id_to_function;
   std::map<std::string, tl_combinator *> name_to_function;
 
  public:
   void add_type(tl_type *type);
 
-  tl_type *get_type(int type_id);
+  tl_type *get_type(std::int32_t type_id);
 
   tl_type *get_type(const std::string &type_name);
 
   void add_function(tl_combinator *function);
 
-  tl_combinator *get_function(int function_id);
+  tl_combinator *get_function(std::int32_t function_id);
 
   tl_combinator *get_function(const std::string &function_name);
 
-  int get_type_count() const;
+  std::size_t get_type_count() const;
 
-  tl_type *get_type_by_num(int num) const;
+  tl_type *get_type_by_num(std::size_t num) const;
 
-  int get_function_count() const;
+  std::size_t get_function_count() const;
 
-  tl_combinator *get_function_by_num(int num) const;
+  tl_combinator *get_function_by_num(std::size_t num) const;
 };
 
 class tl_config_parser {
@@ -48,7 +49,7 @@ class tl_config_parser {
   int schema_version;
   tl_config config;
 
-  static int get_schema_version(int a);
+  static int get_schema_version(std::int32_t version_id);
 
   tl_tree *read_num_const();
   tl_tree *read_num_var(int *var_count);
@@ -66,8 +67,8 @@ class tl_config_parser {
   template <class T>
   T try_parse(const T &res) const;
 
-  int32_t try_parse_int();
-  int64_t try_parse_long();
+  std::int32_t try_parse_int();
+  std::int64_t try_parse_long();
   std::string try_parse_string();
 
  public:

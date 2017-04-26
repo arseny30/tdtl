@@ -1,9 +1,10 @@
 #pragma once
 
+#include "tl_core.h"
+
+#include <cstdint>
 #include <string>
 #include <vector>
-
-#include "tl_core.h"
 
 namespace td {
 namespace tl {
@@ -88,7 +89,7 @@ class TL_writer {
   virtual std::string gen_function_vars(const tl_combinator *t, std::vector<var_description> &vars) const = 0;
   virtual std::string gen_uni(const tl_tree_type *result_type, std::vector<var_description> &vars,
                               bool check_negative) const = 0;
-  virtual std::string gen_constructor_id_store(int32_t id, int storer_type) const = 0;
+  virtual std::string gen_constructor_id_store(std::int32_t id, int storer_type) const = 0;
   virtual std::string gen_field_fetch(int field_num, const arg &a, std::vector<var_description> &vars, bool flat,
                                       int parser_type) const = 0;
   virtual std::string gen_field_store(const arg &a, std::vector<var_description> &vars, bool flat,
@@ -99,7 +100,7 @@ class TL_writer {
                                      const std::vector<var_description> &vars, int storer_type) const = 0;
   virtual std::string gen_var_type_fetch(const arg &a) const = 0;
 
-  virtual std::string gen_get_id(const std::string &class_name, int32_t id, bool is_proxy) const = 0;
+  virtual std::string gen_get_id(const std::string &class_name, std::int32_t id, bool is_proxy) const = 0;
 
   virtual std::string gen_fetch_function_begin(const std::string &parser_name, const std::string &class_name, int arity,
                                                std::vector<var_description> &vars, int parser_type) const = 0;

@@ -1,9 +1,10 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include <cassert>
-#include <cstdio>
+#include "tl_writer.h"
 
 #include "tl_core.h"
-#include "tl_writer.h"
+
+#include <cassert>
+#include <cstdio>
 
 namespace td {
 namespace tl {
@@ -115,7 +116,7 @@ bool TL_writer::is_combinator_supported(const tl_combinator *constructor) const 
 
 std::string TL_writer::gen_main_class_name(const tl_type *t) const {
   if (t->simple_constructors == 1) {
-    for (int i = 0; i < t->constructors_num; i++) {
+    for (std::size_t i = 0; i < t->constructors_num; i++) {
       if (is_combinator_supported(t->constructors[i])) {
         return gen_class_name(t->constructors[i]->name);
       }
