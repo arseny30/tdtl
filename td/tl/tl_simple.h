@@ -1,6 +1,14 @@
+#pragma once
+
 #include "td/tl/tl_config.h"
-#include "td/tl/tl_string_outputer.h"
-#include "td/tl/tl_generate.h"
+
+#include <cassert>
+#include <cctype>
+#include <cstddef>
+#include <cstdint>
+#include <map>
+#include <string>
+#include <vector>
 
 namespace td {
 namespace tl {
@@ -8,8 +16,8 @@ namespace simple {
 // TL type is
 
 std::string gen_cpp_name(std::string name) {
-  for (int i = 0; i < (int)name.size(); i++) {
-    if (!isalnum(name[i])) {
+  for (size_t i = 0; i < name.size(); i++) {
+    if (!std::isalnum(name[i])) {
       name[i] = '_';
     }
   }
@@ -41,7 +49,7 @@ struct Arg {
 
 struct Constructor {
   std::string name;
-  int32_t id;
+  std::int32_t id;
   std::vector<Arg> args;
   const CustomType *type;
 };
@@ -53,16 +61,16 @@ struct CustomType {
 
 struct Function {
   std::string name;
-  int32_t id;
+  std::int32_t id;
   std::vector<Arg> args;
   const Type *type;
 };
 
 class Schema {
  public:
-  Schema(const tl_config &config) {
+  explicit Schema(const tl_config &config) {
     config_ = &config;
-    for (int type_num = 0, type_count = static_cast<int>(config.get_type_count()); type_num < type_count; type_num++) {
+    for (std::size_t type_num = 0, type_count = config.get_type_count(); type_num < type_count; type_num++) {
       auto *from_type = config.get_type_by_num(type_num);
       if (from_type->name == "Vector") {
         continue;
@@ -72,8 +80,8 @@ class Schema {
         custom_types.push_back(type->custom);
       }
     }
-    for (int function_num = 0, function_count = static_cast<int>(config.get_function_count());
-         function_num < function_count; function_num++) {
+    for (std::size_t function_num = 0, function_count = config.get_function_count(); function_num < function_count;
+         function_num++) {
       auto *from_function = config.get_function_by_num(function_num);
       functions.push_back(get_function(from_function));
     }
@@ -89,9 +97,9 @@ class Schema {
   std::vector<std::unique_ptr<Type>> types_;
 
   const tl_config *config_{nullptr};
-  std::map<int32_t, Type *> type_by_id;
-  std::map<int32_t, Constructor *> constructor_by_id;
-  std::map<int32_t, Function *> function_by_id;
+  std::map<std::int32_t, Type *> type_by_id;
+  std::map<std::int32_t, Constructor *> constructor_by_id;
+  std::map<std::int32_t, Function *> function_by_id;
 
   const Type *get_type(const tl_type *from_type) {
     auto &type = type_by_id[from_type->id];

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.2)
 
 #SOURCE SETS
-set (TDTL_SOURCE
+set(TDTL_SOURCE
   td/tl/tl_config.cpp
   td/tl/tl_core.cpp
   td/tl/tl_file_outputer.cpp
