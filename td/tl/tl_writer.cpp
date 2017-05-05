@@ -36,7 +36,7 @@ bool TL_writer::is_type_supported(const tl_tree_type *tree_type) const {
     return false;
   }
 
-  for (int i = 0; i < (int)tree_type->children.size(); i++) {
+  for (std::size_t i = 0; i < tree_type->children.size(); i++) {
     const tl_tree *child = tree_type->children[i];
     assert(child->get_type() == NODE_TYPE_TYPE || child->get_type() == NODE_TYPE_VAR_TYPE ||
            child->get_type() == NODE_TYPE_NAT_CONST || child->get_type() == NODE_TYPE_VAR_NUM);
@@ -56,7 +56,7 @@ bool TL_writer::is_type_supported(const tl_tree_type *tree_type) const {
 
 bool TL_writer::is_combinator_supported(const tl_combinator *constructor) const {
   std::vector<bool> is_function_result(constructor->var_count);
-  for (int i = 0; i < (int)constructor->args.size(); i++) {
+  for (std::size_t i = 0; i < constructor->args.size(); i++) {
     const arg &a = constructor->args[i];
 
     int arg_type = a.type->get_type();
@@ -74,7 +74,7 @@ bool TL_writer::is_combinator_supported(const tl_combinator *constructor) const 
     }
   }
 
-  for (int i = 0; i < (int)constructor->args.size(); i++) {
+  for (std::size_t i = 0; i < constructor->args.size(); i++) {
     const arg &a = constructor->args[i];
 
     int arg_type = a.type->get_type();
@@ -102,7 +102,7 @@ bool TL_writer::is_combinator_supported(const tl_combinator *constructor) const 
     } else {
       assert(arg_type == NODE_TYPE_ARRAY);
       const tl_tree_array *arr = static_cast<const tl_tree_array *>(a.type);
-      for (int j = 0; j < (int)arr->args.size(); j++) {
+      for (std::size_t j = 0; j < arr->args.size(); j++) {
         const arg &b = arr->args[j];
         assert(b.type->get_type() == NODE_TYPE_TYPE && b.var_num == -1);
         if (!is_type_supported(static_cast<const tl_tree_type *>(b.type))) {
@@ -162,7 +162,7 @@ std::string TL_writer::gen_field_type(const arg &a) const {
 
   if (a.type->get_type() == NODE_TYPE_TYPE) {
     const tl_tree_type *arg_type = static_cast<const tl_tree_type *>(a.type);
-    assert((int)arg_type->children.size() == arg_type->type->arity);
+    assert(arg_type->children.size() == static_cast<std::size_t>(arg_type->type->arity));
 
     if (arg_type->type->id == ID_VAR_TYPE) {
       return std::string();
