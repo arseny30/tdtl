@@ -38,6 +38,9 @@ class TL_writer {
   virtual int get_max_arity() const = 0;
 
   static std::string int_to_string(int x);
+  static bool is_alnum(char c);
+  static char to_lower(char c);
+  static char to_upper(char c);
 
   virtual bool is_built_in_simple_type(const std::string &name) const = 0;
   virtual bool is_built_in_complex_type(const std::string &name) const = 0;

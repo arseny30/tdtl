@@ -3,7 +3,6 @@
 #include "td/tl/tl_config.h"
 
 #include <cassert>
-#include <cctype>
 #include <cstddef>
 #include <cstdint>
 #include <map>
@@ -17,7 +16,7 @@ namespace simple {
 
 std::string gen_cpp_name(std::string name) {
   for (size_t i = 0; i < name.size(); i++) {
-    if (!std::isalnum(name[i])) {
+    if ((name[i] < '0' || '9' < name[i]) && (name[i] < 'a' || 'z' < name[i]) && (name[i] < 'A' || 'Z' < name[i])) {
       name[i] = '_';
     }
   }

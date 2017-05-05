@@ -15,6 +15,18 @@ std::string TL_writer::int_to_string(int x) {
   return buf;
 }
 
+bool TL_writer::is_alnum(char c) {
+  return ('0' <= c && c <= '9') || ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z');
+}
+
+char TL_writer::to_lower(char c) {
+  return 'A' <= c && c <= 'Z' ? static_cast<char>(c - 'A' + 'a') : c;
+}
+
+char TL_writer::to_upper(char c) {
+  return 'a' <= c && c <= 'z' ? static_cast<char>(c - 'a' + 'A') : c;
+}
+
 std::vector<std::string> TL_writer::get_additional_functions() const {
   return std::vector<std::string>();
 }
