@@ -9,6 +9,7 @@ set (TDTL_SOURCE
   td/tl/tl_outputer.cpp
   td/tl/tl_string_outputer.cpp
   td/tl/tl_writer.cpp
+  #td/tl/tl_simple.cpp
 
   td/tl/tl_config.h
   td/tl/tl_core.h
@@ -17,6 +18,7 @@ set (TDTL_SOURCE
   td/tl/tl_outputer.h
   td/tl/tl_string_outputer.h
   td/tl/tl_writer.h
+  td/tl/tl_simple.h
 )
 
 add_library(tdtl STATIC ${TDTL_SOURCE})

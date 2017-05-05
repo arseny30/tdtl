@@ -33,8 +33,10 @@ void tl_config::add_type(tl_type *type) {
   name_to_type[type->name] = type;
 }
 
-tl_type *tl_config::get_type(std::int32_t type_id) {
-  return id_to_type[type_id];
+tl_type *tl_config::get_type(std::int32_t type_id) const {
+  auto it = id_to_type.find(type_id);
+  assert(it != id_to_type.end());
+  return it->second;
 }
 
 tl_type *tl_config::get_type(const std::string &type_name) {

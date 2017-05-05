@@ -25,7 +25,7 @@ class tl_config {
  public:
   void add_type(tl_type *type);
 
-  tl_type *get_type(std::int32_t type_id);
+  tl_type *get_type(std::int32_t type_id) const;
 
   tl_type *get_type(const std::string &type_name);
 
