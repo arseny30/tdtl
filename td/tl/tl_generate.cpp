@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "tl_config.h"
 #include "tl_core.h"
 #include "tl_outputer.h"
