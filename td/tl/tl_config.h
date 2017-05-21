@@ -1,8 +1,7 @@
 #pragma once
 
 #include "tl_core.h"
-
-#include "td/utils/tl_parser.h"
+#include "tl_simple_parser.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -45,7 +44,7 @@ class tl_config {
 };
 
 class tl_config_parser {
-  tl_parser p;
+  tl_simple_parser p;
   int schema_version;
   tl_config config;
 
@@ -72,7 +71,7 @@ class tl_config_parser {
   std::string try_parse_string();
 
  public:
-  tl_config_parser(const char *s, size_t len) : p(s, len) {
+  tl_config_parser(const char *s, std::size_t len) : p(s, len) {
   }
 
   tl_config parse_config();

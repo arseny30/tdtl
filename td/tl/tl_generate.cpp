@@ -18,7 +18,7 @@ namespace tl {
 
 void write_class_constructor(tl_outputer &out, const tl_combinator *t, const std::string &class_name, bool is_default,
                              const TL_writer &w) {
-  //  fprintf(stderr, "Gen constructor %s\n", class_name.c_str());
+  //  std::fprintf(stderr, "Gen constructor %s\n", class_name.c_str());
   int fields_num = 0;
   for (std::size_t i = 0; i < t->args.size(); i++) {
     fields_num += !w.gen_constructor_parameter(0, t->args[i], is_default).empty();
@@ -49,7 +49,7 @@ void write_class_constructor(tl_outputer &out, const tl_combinator *t, const std
 
 void write_function_fetch(tl_outputer &out, const std::string &parser_name, const tl_combinator *t,
                           const std::string &class_name, const TL_writer &w) {
-  //  fprintf(stderr, "Write function fetch %s\n", class_name.c_str());
+  //  std::fprintf(stderr, "Write function fetch %s\n", class_name.c_str());
   std::vector<var_description> vars(t->var_count);
   int parser_type = w.get_parser_type(t, parser_name);
 
@@ -70,7 +70,7 @@ void write_function_fetch(tl_outputer &out, const std::string &parser_name, cons
 std::vector<var_description> write_function_store(tl_outputer &out, const std::string &storer_name,
                                                   const tl_combinator *t, const std::string &class_name,
                                                   std::vector<var_description> &vars, const TL_writer &w) {
-  //  fprintf(stderr, "Write function store %s\n", class_name.c_str());
+  //  std::fprintf(stderr, "Write function store %s\n", class_name.c_str());
   int storer_type = w.get_storer_type(t, storer_name);
 
   out.append(w.gen_store_function_begin(storer_name, class_name, 0, vars, storer_type));
@@ -87,7 +87,7 @@ std::vector<var_description> write_function_store(tl_outputer &out, const std::s
 void write_function_result_fetch(tl_outputer &out, const std::string &parser_name, const tl_combinator *t,
                                  const std::string &class_name, const tl_tree *result,
                                  const std::vector<var_description> &vars, const TL_writer &w) {
-  //  fprintf(stderr, "Write function result fetch %s\n", class_name.c_str());
+  //  std::fprintf(stderr, "Write function result fetch %s\n", class_name.c_str());
   int parser_type = w.get_parser_type(t, parser_name);
 
   out.append(w.gen_fetch_function_result_begin(parser_name, class_name, result));
@@ -154,7 +154,7 @@ void write_constructor_store(tl_outputer &out, const std::string &storer_name, c
   out.append(w.gen_vars(t, result_type, vars));
   out.append(w.gen_uni(result_type, vars, false));
   for (std::size_t i = 0; i < t->args.size(); i++) {
-    //    fprintf(stderr, "%s: %s\n", result_type->type->name.c_str(), t->name.c_str());
+    //  std::fprintf(stderr, "%s: %s\n", result_type->type->name.c_str(), t->name.c_str());
     out.append(w.gen_field_store(t->args[i], vars, is_flat, storer_type));
   }
 
@@ -340,7 +340,7 @@ void write_class(tl_outputer &out, const tl_type *t, const TL_writer &w) {
       }
       written_constructors++;
     } else {
-      fprintf(stderr, "Skip complex constructor %s of %s\n", t->constructors[i]->name.c_str(), t->name.c_str());
+      std::fprintf(stderr, "Skip complex constructor %s of %s\n", t->constructors[i]->name.c_str(), t->name.c_str());
     }
   }
   assert(written_constructors == t->simple_constructors);
@@ -370,7 +370,8 @@ void write_tl(const tl_config &config, tl_outputer &out, const TL_writer &w) {
       assert(constructor->type_id == t->id);
       assert(constructor->result->get_type() == NODE_TYPE_TYPE);
       assert(static_cast<const tl_tree_type *>(constructor->result)->type == t);
-      assert(static_cast<const tl_tree_type *>(constructor->result)->children.size() == static_cast<size_t>(t->arity));
+      assert(static_cast<const tl_tree_type *>(constructor->result)->children.size() ==
+             static_cast<std::size_t>(t->arity));
       assert(static_cast<const tl_tree_type *>(constructor->result)->flags == (t->arity > 0 ? 0 : FLAG_NOVAR));
 
       for (std::size_t k = 0; k < constructor->args.size(); k++) {
@@ -441,7 +442,7 @@ void write_tl(const tl_config &config, tl_outputer &out, const TL_writer &w) {
       if (t->simple_constructors == 0) {
         t->flags |= FLAG_COMPLEX;
         found_complex = true;
-        //        fprintf(stderr, "Found complex %s\n", t->name.c_str());
+        //  std::fprintf(stderr, "Found complex %s\n", t->name.c_str());
       }
     }
   }
@@ -513,8 +514,8 @@ void write_tl(const tl_config &config, tl_outputer &out, const TL_writer &w) {
 
     std::vector<std::string> additional_functions = w.get_additional_functions();
     for (std::size_t j = 0; j < additional_functions.size(); j++) {
-      out.append(w.gen_additional_proxy_function_begin(additional_functions[j], nullptr, w.gen_base_type_class_name(i),
-                                                       i, false));
+      out.append(w.gen_additional_proxy_function_begin(additional_functions[j], NULL, w.gen_base_type_class_name(i), i,
+                                                       false));
       for (std::size_t type = 0; type < types_n; type++) {
         tl_type *t = config.get_type_by_num(type);
         if (t->constructors_num == 0 || w.is_built_in_simple_type(t->name) || w.is_built_in_complex_type(t->name) ||
@@ -527,20 +528,19 @@ void write_tl(const tl_config &config, tl_outputer &out, const TL_writer &w) {
 
         int function_type = w.get_additional_function_type(additional_functions[j]);
         if ((function_type & 1) && t->simple_constructors != 1) {
-          out.append(
-              w.gen_additional_proxy_function_case(additional_functions[j], nullptr, w.gen_class_name(t->name), i));
+          out.append(w.gen_additional_proxy_function_case(additional_functions[j], NULL, w.gen_class_name(t->name), i));
         }
         if ((function_type & 2) || ((function_type & 1) && t->simple_constructors == 1)) {
           for (std::size_t k = 0; k < t->constructors_num; k++) {
             if (w.is_combinator_supported(t->constructors[k])) {
               out.append(
-                  w.gen_additional_proxy_function_case(additional_functions[j], nullptr, t->constructors[k], i, false));
+                  w.gen_additional_proxy_function_case(additional_functions[j], NULL, t->constructors[k], i, false));
             }
           }
         }
       }
 
-      out.append(w.gen_additional_proxy_function_end(additional_functions[j], nullptr, false));
+      out.append(w.gen_additional_proxy_function_end(additional_functions[j], NULL, false));
     }
 
     std::vector<std::string> storers = w.get_storers();
@@ -585,17 +585,17 @@ void write_tl(const tl_config &config, tl_outputer &out, const TL_writer &w) {
 
     std::vector<std::string> additional_functions = w.get_additional_functions();
     for (std::size_t j = 0; j < additional_functions.size(); j++) {
-      out.append(w.gen_additional_proxy_function_begin(additional_functions[j], nullptr,
-                                                       w.gen_base_function_class_name(), 0, true));
+      out.append(w.gen_additional_proxy_function_begin(additional_functions[j], NULL, w.gen_base_function_class_name(),
+                                                       0, true));
       for (std::size_t function = 0; function < functions_n; function++) {
         tl_combinator *t = config.get_function_by_num(function);
 
         if (w.is_combinator_supported(t)) {
-          out.append(w.gen_additional_proxy_function_case(additional_functions[j], nullptr, t, 0, true));
+          out.append(w.gen_additional_proxy_function_case(additional_functions[j], NULL, t, 0, true));
         }
       }
 
-      out.append(w.gen_additional_proxy_function_end(additional_functions[j], nullptr, true));
+      out.append(w.gen_additional_proxy_function_end(additional_functions[j], NULL, true));
     }
 
     out.append(w.gen_class_end());
@@ -609,7 +609,7 @@ void write_tl(const tl_config &config, tl_outputer &out, const TL_writer &w) {
     }
 
     if (t->flags & FLAG_COMPLEX) {
-      fprintf(stderr, "Can't generate class %s\n", t->name.c_str());
+      std::fprintf(stderr, "Can't generate class %s\n", t->name.c_str());
       continue;
     }
 
@@ -619,7 +619,7 @@ void write_tl(const tl_config &config, tl_outputer &out, const TL_writer &w) {
   for (std::size_t function = 0; function < functions_n; function++) {
     tl_combinator *t = config.get_function_by_num(function);
     if (!w.is_combinator_supported(t)) {
-      fprintf(stderr, "Function %s is too hard to store\n", t->name.c_str());
+      std::fprintf(stderr, "Function %s is too hard to store\n", t->name.c_str());
       continue;
     }
 
@@ -635,62 +635,62 @@ void write_tl(const tl_config &config, tl_outputer &out, const TL_writer &w) {
   }
 }
 
-std::string get_file_contents(const std::string &file_name, const string &mode) {
-  FILE *f = fopen(file_name.c_str(), mode.c_str());
+static std::string get_file_contents(const std::string &file_name, const std::string &mode) {
+  FILE *f = std::fopen(file_name.c_str(), mode.c_str());
   if (f == NULL) {
     return std::string();
   }
 
-  int fseek_res = fseek(f, 0, SEEK_END);
+  int fseek_res = std::fseek(f, 0, SEEK_END);
   if (fseek_res != 0) {
-    fprintf(stderr, "Can't seek to the end of the file \"%s\"", file_name.c_str());
+    std::fprintf(stderr, "Can't seek to the end of the file \"%s\"", file_name.c_str());
     std::abort();
   }
-  long size_long = ftell(f);
+  long size_long = std::ftell(f);
   if (size_long < 0 || size_long >= (1 << 25)) {
-    fprintf(stderr, "Wrong file \"%s\" has wrong size = %ld", file_name.c_str(), size_long);
+    std::fprintf(stderr, "Wrong file \"%s\" has wrong size = %ld", file_name.c_str(), size_long);
     std::abort();
   }
-  size_t size = static_cast<size_t>(size_long);
+  std::size_t size = static_cast<std::size_t>(size_long);
 
-  string result(size, ' ');
-  rewind(f);
-  size_t fread_res = fread(&result[0], size, 1, f);
+  std::string result(size, ' ');
+  std::rewind(f);
+  std::size_t fread_res = std::fread(&result[0], size, 1, f);
   if (size != 0 && fread_res != 1) {
-    fprintf(stderr, "Can't read file \"%s\"", file_name.c_str());
+    std::fprintf(stderr, "Can't read file \"%s\"", file_name.c_str());
     std::abort();
   }
-  fclose(f);
+  std::fclose(f);
 
   return result;
 }
 
-bool put_file_contents(const std::string &file_name, const string &mode, const string &contents) {
-  FILE *f = fopen(file_name.c_str(), mode.c_str());
+static bool put_file_contents(const std::string &file_name, const std::string &mode, const std::string &contents) {
+  FILE *f = std::fopen(file_name.c_str(), mode.c_str());
   if (f == NULL) {
-    fprintf(stderr, "Can't open file \"%s\"\n", file_name.c_str());
+    std::fprintf(stderr, "Can't open file \"%s\"\n", file_name.c_str());
     return false;
   }
 
-  size_t fwrite_res = fwrite(contents.c_str(), contents.size(), 1, f);
+  std::size_t fwrite_res = std::fwrite(contents.c_str(), contents.size(), 1, f);
   if (fwrite_res != 1) {
     return false;
   }
-  if (fclose(f) != 0) {
+  if (std::fclose(f) != 0) {
     return false;
   }
   return true;
 }
 
 tl_config read_tl_config_from_file(const std::string &file_name) {
-  string config = get_file_contents(file_name, "rb");
+  std::string config = get_file_contents(file_name, "rb");
   if (config.empty()) {
-    fprintf(stderr, "Config file %s is empty\n", file_name.c_str());
+    std::fprintf(stderr, "Config file %s is empty\n", file_name.c_str());
     std::abort();
   }
   if (config.size() % sizeof(std::int32_t) != 0) {
-    fprintf(stderr, "Config size = %d is not multiple of %d\n", static_cast<int>(config.size()),
-            static_cast<int>(sizeof(std::int32_t)));
+    std::fprintf(stderr, "Config size = %d is not multiple of %d\n", static_cast<int>(config.size()),
+                 static_cast<int>(sizeof(std::int32_t)));
     std::abort();
   }
 
@@ -703,7 +703,7 @@ bool write_tl_to_file(const tl_config &config, const std::string &file_name, con
   write_tl(config, out, w);
 
   if (get_file_contents(file_name, "rb") != out.get_result()) {
-    fprintf(stderr, "Write tl to file %s\n", file_name.c_str());
+    std::fprintf(stderr, "Write tl to file %s\n", file_name.c_str());
     return put_file_contents(file_name, "wb", out.get_result());
   }
 

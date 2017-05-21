@@ -11,7 +11,7 @@ namespace tl {
 
 std::string TL_writer::int_to_string(int x) {
   char buf[15];
-  sprintf(buf, "%d", x);
+  std::sprintf(buf, "%d", x);
   return buf;
 }
 
@@ -84,8 +84,8 @@ bool TL_writer::is_combinator_supported(const tl_combinator *constructor) const 
       if (a_type->type->id == ID_VAR_TYPE) {
         assert(!(a_type->flags & FLAG_EXCL));
         if (!is_function_result[a.var_num]) {
-          assert(0);  // not possible, otherwise type is argument of a type, but all types with type arguments already
-                      // marked complex
+          assert(0);  // not possible, otherwise type is an argument of a type, but all types with type arguments are
+                      // already marked complex
           return false;
         } else {
           continue;

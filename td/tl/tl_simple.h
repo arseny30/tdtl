@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -15,7 +16,7 @@ namespace simple {
 // TL type is
 
 std::string gen_cpp_name(std::string name) {
-  for (size_t i = 0; i < name.size(); i++) {
+  for (std::size_t i = 0; i < name.size(); i++) {
     if ((name[i] < '0' || '9' < name[i]) && (name[i] < 'a' || 'z' < name[i]) && (name[i] < 'A' || 'Z' < name[i])) {
       name[i] = '_';
     }
@@ -119,7 +120,7 @@ class Schema {
       } else if (from_type->name == "Bool") {
         type->type = Type::Bool;
       } else if (from_type->name == "Vector") {
-        UNREACHABLE();
+        assert(false); // unreachable
       } else {
         type->type = Type::Custom;
         custom_types_.push_back(std::make_unique<CustomType>());
@@ -135,7 +136,7 @@ class Schema {
   }
   const CustomType *get_custom_type(const tl_type *from_type) {
     auto *type = get_type(from_type);
-    CHECK(type->type == Type::Custom) << from_type->name;
+    assert(type->type == Type::Custom);
     return type->custom;
   }
 
@@ -174,21 +175,22 @@ class Schema {
     return function;
   }
   const Type *get_type(const tl_tree *tree) {
-    CHECK(tree->get_type() == NODE_TYPE_TYPE);
+    assert(tree->get_type() == NODE_TYPE_TYPE);
     auto *type_tree = static_cast<const tl_tree_type *>(tree);
     if (type_tree->type->name == "Vector") {
-      CHECK(type_tree->children.size() == 1);
+      assert(type_tree->children.size() == 1);
       types_.push_back(std::make_unique<Type>());
       auto *type = types_.back().get();
       type->type = Type::Vector;
       type->vector_value_type = get_type(type_tree->children[0]);
       return type;
     } else {
-      CHECK(type_tree->children.empty());
+      assert(type_tree->children.empty());
       return get_type(type_tree->type);
     }
   }
 };
+
 }  // namespace simple
 }  // namespace tl
 }  // namespace td
