@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include "tl_file_outputer.h"
 
 #include <cassert>

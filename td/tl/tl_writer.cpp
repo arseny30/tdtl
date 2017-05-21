@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include "tl_writer.h"
 
 #include "tl_core.h"
