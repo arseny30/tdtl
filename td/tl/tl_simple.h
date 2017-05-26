@@ -120,7 +120,7 @@ class Schema {
       } else if (from_type->name == "Bool") {
         type->type = Type::Bool;
       } else if (from_type->name == "Vector") {
-        assert(false); // unreachable
+        assert(false);  // unreachable
       } else {
         type->type = Type::Custom;
         custom_types_.push_back(std::make_unique<CustomType>());
