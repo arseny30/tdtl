@@ -105,6 +105,8 @@ class TL_writer {
 
   virtual std::string gen_get_id(const std::string &class_name, std::int32_t id, bool is_proxy) const = 0;
 
+  virtual std::string gen_function_result_type(const tl_tree *result) const = 0;
+
   virtual std::string gen_fetch_function_begin(const std::string &parser_name, const std::string &class_name, int arity,
                                                std::vector<var_description> &vars, int parser_type) const = 0;
   virtual std::string gen_fetch_function_end(int field_num, const std::vector<var_description> &vars,

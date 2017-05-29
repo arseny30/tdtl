@@ -204,6 +204,8 @@ void write_function(tl_outputer &out, const tl_combinator *t, const TL_writer &w
 
   out.append(w.gen_get_id(class_name, t->id, false));
 
+  out.append(w.gen_function_result_type(t->result));
+
   //  PARSER
   std::vector<std::string> parsers = w.get_parsers();
   for (std::size_t i = 0; i < parsers.size(); i++) {
