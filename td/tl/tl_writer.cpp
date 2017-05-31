@@ -83,8 +83,8 @@ bool TL_writer::is_combinator_supported(const tl_combinator *constructor) const 
       if (a_type->type->id == ID_VAR_TYPE) {
         assert(!(a_type->flags & FLAG_EXCL));
         if (!is_function_result[a.var_num]) {
-          assert(0);  // not possible, otherwise type is an argument of a type, but all types with type arguments are
-                      // already marked complex
+          assert(false);  // not possible, otherwise type is an argument of a type, but all types with type arguments
+                          // are already marked complex
           return false;
         } else {
           continue;
@@ -180,32 +180,32 @@ std::string TL_writer::gen_field_type(const arg &a) const {
 
 std::string TL_writer::gen_additional_function(const std::string &function_name, const tl_combinator *t,
                                                bool is_function) const {
-  assert(0);
+  assert(false);
   return "";
 }
 
 std::string TL_writer::gen_additional_proxy_function_begin(const std::string &function_name, const tl_type *type,
                                                            const std::string &class_name, int arity,
                                                            bool is_function) const {
-  assert(0);
+  assert(false);
   return "";
 }
 
 std::string TL_writer::gen_additional_proxy_function_case(const std::string &function_name, const tl_type *type,
                                                           const std::string &class_name, int arity) const {
-  assert(0);
+  assert(false);
   return "";
 }
 
 std::string TL_writer::gen_additional_proxy_function_case(const std::string &function_name, const tl_type *type,
                                                           const tl_combinator *t, int arity, bool is_function) const {
-  assert(0);
+  assert(false);
   return "";
 }
 
 std::string TL_writer::gen_additional_proxy_function_end(const std::string &function_name, const tl_type *type,
                                                          bool is_function) const {
-  assert(0);
+  assert(false);
   return "";
 }
 
