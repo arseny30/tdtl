@@ -29,6 +29,8 @@ class TL_writer {
   const std::string tl_name;
 
  public:
+  enum Mode { All, Client, Server };
+
   explicit TL_writer(const std::string &tl_name) : tl_name(tl_name) {
   }
 
@@ -51,6 +53,8 @@ class TL_writer {
   virtual int get_parser_type(const tl_combinator *t, const std::string &parser_name) const;
   virtual int get_storer_type(const tl_combinator *t, const std::string &storer_name) const;
   virtual int get_additional_function_type(const std::string &additional_function_name) const;
+  virtual Mode get_parser_mode(int type) const;
+  virtual Mode get_storer_mode(int type) const;
   virtual std::vector<std::string> get_parsers() const = 0;
   virtual std::vector<std::string> get_storers() const = 0;
   virtual std::vector<std::string> get_additional_functions() const;

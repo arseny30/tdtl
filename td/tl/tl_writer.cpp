@@ -149,6 +149,14 @@ int TL_writer::get_additional_function_type(const std::string &additional_functi
   return 0;
 }
 
+TL_writer::Mode TL_writer::get_parser_mode(int type) const {
+  return All;
+}
+
+TL_writer::Mode TL_writer::get_storer_mode(int type) const {
+  return All;
+}
+
 std::string TL_writer::gen_field_type(const arg &a) const {
   if (a.flags & FLAG_EXCL) {
     assert(a.flags == FLAG_EXCL);
