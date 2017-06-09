@@ -46,7 +46,7 @@ class TL_writer {
 
   virtual bool is_built_in_simple_type(const std::string &name) const = 0;
   virtual bool is_built_in_complex_type(const std::string &name) const = 0;
-  virtual bool is_type_supported(const tl_tree_type *t) const;
+  virtual bool is_type_supported(const tl_tree_type *tree_type) const;
   virtual bool is_type_bare(const tl_type *t) const = 0;
   virtual bool is_combinator_supported(const tl_combinator *constructor) const;
 
