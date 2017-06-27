@@ -587,11 +587,11 @@ void write_tl(const tl_config &config, tl_outputer &out, const TL_writer &w) {
 
     if (t->simple_constructors != 1) {
       out.append(w.gen_forward_class_declaration(w.gen_class_name(t->name), true));
-    }
-
-    for (std::size_t i = 0; i < t->constructors_num; i++) {
-      if (w.is_combinator_supported(t->constructors[i])) {
-        out.append(w.gen_forward_class_declaration(w.gen_class_name(t->constructors[i]->name), false));
+    } else {
+      for (std::size_t i = 0; i < t->constructors_num; i++) {
+        if (w.is_combinator_supported(t->constructors[i])) {
+          out.append(w.gen_forward_class_declaration(w.gen_class_name(t->constructors[i]->name), false));
+        }
       }
     }
   }
@@ -605,9 +605,9 @@ void write_tl(const tl_config &config, tl_outputer &out, const TL_writer &w) {
       continue;
     }
 
-    out.append(w.gen_forward_class_declaration(w.gen_class_name(t->name), false));
+    // out.append(w.gen_forward_class_declaration(w.gen_class_name(t->name), false));
   }
-  out.append(w.gen_forward_class_declaration(w.gen_base_function_class_name(), true));
+  // out.append(w.gen_forward_class_declaration(w.gen_base_function_class_name(), true));
 
   // write base classes
   std::vector<var_description> empty_vars;
