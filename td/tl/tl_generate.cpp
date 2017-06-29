@@ -846,6 +846,29 @@ static bool put_file_contents(const std::string &file_name, const std::string &m
   return true;
 }
 
+static std::string remove_documentation(const std::string &str) {
+  std::size_t line_begin = 0;
+  std::string result;
+  while (line_begin < str.size()) {
+    std::size_t line_end = str.find('\n', line_begin);
+    if (line_end == std::string::npos) {
+      line_end = str.size() - 1;
+    }
+    std::string line = str.substr(line_begin, line_end - line_begin + 1);
+    line_begin = line_end + 1;
+
+    std::size_t pos = line.find_first_not_of(' ');
+    if (pos != std::string::npos &&
+        ((line[pos] == '/' && line[pos + 1] == '/' && line[pos + 2] == '/') ||
+         (line[pos] == '/' && line[pos + 1] == '*' && line[pos + 2] == '*') || line[pos] == '*')) {
+      continue;
+    }
+
+    result += line;
+  }
+  return result;
+}
+
 tl_config read_tl_config_from_file(const std::string &file_name) {
   std::string config = get_file_contents(file_name, "rb");
   if (config.empty()) {
@@ -866,7 +889,7 @@ bool write_tl_to_file(const tl_config &config, const std::string &file_name, con
   tl_string_outputer out;
   write_tl(config, out, w);
 
-  if (get_file_contents(file_name, "rb") != out.get_result()) {
+  if (remove_documentation(get_file_contents(file_name, "rb")) != out.get_result()) {
     std::fprintf(stderr, "Write tl to file %s\n", file_name.c_str());
     return put_file_contents(file_name, "wb", out.get_result());
   }
