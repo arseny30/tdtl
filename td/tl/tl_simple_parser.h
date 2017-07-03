@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <cstdint>
+#include <cstring>
 #include <string>
 
 namespace td {
@@ -60,7 +61,8 @@ class tl_simple_parser {
 
   std::int64_t fetch_long() {
     check_len(sizeof(std::int64_t));
-    std::int64_t result = *reinterpret_cast<const std::int64_t *>(data);
+    std::int64_t result;
+    std::memcpy(reinterpret_cast<char *>(&result), data, sizeof(std::int64_t));
     data += sizeof(std::int64_t);
     return result;
   }
