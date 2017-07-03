@@ -32,7 +32,7 @@ std::string gen_cpp_field_name(std::string name) {
 
 struct CustomType;
 struct Type {
-  enum { Int, Long, Double, String, Bytes, Vector, Bool, Custom } type;
+  enum { Int32, Int53, Int64, Double, String, Bytes, Vector, Bool, Custom } type;
 
   // type == Custom
   bool is_bare{false};
@@ -107,10 +107,12 @@ class Schema {
       types_.push_back(std::make_unique<Type>());
       type = types_.back().get();
 
-      if (from_type->name == "Int") {
-        type->type = Type::Int;
-      } else if (from_type->name == "Long") {
-        type->type = Type::Long;
+      if (from_type->name == "Int32") {
+        type->type = Type::Int32;
+      } else if (from_type->name == "Int53") {
+        type->type = Type::Int53;
+      } else if (from_type->name == "Int64") {
+        type->type = Type::Int64;
       } else if (from_type->name == "Double") {
         type->type = Type::Double;
       } else if (from_type->name == "String") {
