@@ -7,7 +7,6 @@ set(TDTL_SOURCE
   td/tl/tl_file_outputer.cpp
   td/tl/tl_generate.cpp
   td/tl/tl_outputer.cpp
-  td/tl/tl_simple_parser.cpp
   td/tl/tl_string_outputer.cpp
   td/tl/tl_writer.cpp
 

@@ -40,7 +40,9 @@ class tl_simple_parser {
   tl_simple_parser &operator=(const tl_simple_parser &other);
 
  public:
-  tl_simple_parser(const char *data, std::size_t data_len);
+  tl_simple_parser(const char *data, std::size_t data_len)
+      : data(data), data_begin(data), data_len(data_len), error(), error_pos() {
+  }
 
   const char *get_error() const {
     return error;
