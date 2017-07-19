@@ -7,6 +7,7 @@ set(TDTL_SOURCE
   td/tl/tl_file_outputer.cpp
   td/tl/tl_generate.cpp
   td/tl/tl_outputer.cpp
+  td/tl/tl_simple_parser.cpp
   td/tl/tl_string_outputer.cpp
   td/tl/tl_writer.cpp
 
@@ -23,3 +24,5 @@ set(TDTL_SOURCE
 
 add_library(tdtl STATIC ${TDTL_SOURCE})
 target_include_directories(tdtl PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
+#TODO
+#target_compile_options(tdtl PRIVATE "-std=c++03")
