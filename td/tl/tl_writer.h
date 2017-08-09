@@ -49,6 +49,7 @@ class TL_writer {
   virtual bool is_type_supported(const tl_tree_type *tree_type) const;
   virtual bool is_type_bare(const tl_type *t) const = 0;
   virtual bool is_combinator_supported(const tl_combinator *constructor) const;
+  virtual bool is_documentation_generated() const;
 
   virtual int get_parser_type(const tl_combinator *t, const std::string &parser_name) const;
   virtual int get_storer_type(const tl_combinator *t, const std::string &storer_name) const;

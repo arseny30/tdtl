@@ -889,7 +889,12 @@ bool write_tl_to_file(const tl_config &config, const std::string &file_name, con
   tl_string_outputer out;
   write_tl(config, out, w);
 
-  if (remove_documentation(get_file_contents(file_name, "rb")) != out.get_result()) {
+  auto old_file_contents = get_file_contents(file_name, "rb");
+  if (!w.is_documentation_generated()) {
+    old_file_contents = remove_documentation(old_file_contents);
+  }
+
+  if (old_file_contents != out.get_result()) {
     std::fprintf(stderr, "Write tl to file %s\n", file_name.c_str());
     return put_file_contents(file_name, "wb", out.get_result());
   }
