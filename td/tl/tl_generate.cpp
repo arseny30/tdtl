@@ -838,6 +838,7 @@ static bool put_file_contents(const std::string &file_name, const std::string &m
 
   std::size_t fwrite_res = std::fwrite(contents.c_str(), contents.size(), 1, f);
   if (fwrite_res != 1) {
+    std::fclose(f);
     return false;
   }
   if (std::fclose(f) != 0) {
