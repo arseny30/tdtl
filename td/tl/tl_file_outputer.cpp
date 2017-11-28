@@ -1,7 +1,6 @@
 #include "tl_file_outputer.h"
 
 #include <cassert>
-#include <cassert>
 
 namespace td {
 namespace tl {
