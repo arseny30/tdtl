@@ -15,7 +15,6 @@
 namespace td {
 namespace tl {
 namespace simple {
-// TL type is
 
 std::string gen_cpp_name(std::string name) {
   for (std::size_t i = 0; i < name.size(); i++) {
@@ -126,9 +125,11 @@ class Schema {
   void mark_result(const Type *type) {
     do_mark(type, true);
   }
+
   void mark_query(const Type *type) {
     do_mark(type, false);
   }
+
   void do_mark(const Type *type, bool is_result) {
     if (type->type == Type::Vector) {
       return do_mark(type->vector_value_type, is_result);
@@ -184,6 +185,7 @@ class Schema {
     }
     return type;
   }
+
   const CustomType *get_custom_type(const tl_type *from_type) {
     auto *type = get_type(from_type);
     assert(type->type == Type::Custom);
@@ -207,6 +209,7 @@ class Schema {
     }
     return constructor;
   }
+
   const Function *get_function(const tl_combinator *from) {
     auto &function = function_by_id[from->id];
     if (!function) {
@@ -224,6 +227,7 @@ class Schema {
     }
     return function;
   }
+
   const Type *get_type(const tl_tree *tree) {
     assert(tree->get_type() == NODE_TYPE_TYPE);
     auto *type_tree = static_cast<const tl_tree_type *>(tree);
